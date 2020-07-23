@@ -7,9 +7,6 @@ use std::borrow::Borrow;
 /// And we need to care about ownership issues very much.
 /// ## match
 /// if we don't use ref, there will be an ownership changing in the match expression
-
-
-
 #[derive(Debug)]
 pub struct List {
     head: Link,
@@ -37,7 +34,7 @@ impl Drop for List {
         // `while let` == "do this thing until this pattern doesn't match"
         while let Link::More(mut boxed_node) = cur_link {
             cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
-            println!("dropped {}",boxed_node.elem)
+            println!("dropped {}", boxed_node.elem)
             // boxed_node goes out of scope and gets dropped here;
             // but its Node's `next` field has been set to Link::Empty
             // so no unbounded recursion occurs.
@@ -90,7 +87,7 @@ mod test {
         l.push_front(2);
         l.push_front(2);
         let a = l.pop_front().expect("opps");
-        assert_eq!(a,2);
+        assert_eq!(a, 2);
     }
 }
 

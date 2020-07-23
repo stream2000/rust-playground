@@ -1,6 +1,3 @@
-use std::mem;
-
-// leaning rust with too many linkedList
 pub struct List<T> {
     head: Link<T>,
 }
@@ -28,18 +25,17 @@ impl<T> List<T> {
 
         self.head = Some(new_node);
     }
-
     // replace with empty and take
     // just don't let it dangling
+
     pub fn pop(&mut self) -> Option<T> {
-        self.head.take().map(|node| {
-            self.head = node.next;
-            node.elem
+        self.head.take().map(|pre_head| {
+            self.head = pre_head.next;
+            pre_head.elem
         })
     }
 
     pub fn peek(&self) -> Option<&T> {
-        // what is as_ref
         self.head.as_ref().map(|node| {
             &node.elem
         })
@@ -56,7 +52,7 @@ impl<T> Drop for List<T> {
     fn drop(&mut self) {
         let mut cur_link = self.head.take();
         while let Some(mut boxed_node) = cur_link {
-            cur_link = mem::replace(&mut boxed_node.next, None);
+            cur_link = boxed_node.next.take()
         }
     }
 }
