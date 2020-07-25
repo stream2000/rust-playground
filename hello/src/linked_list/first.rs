@@ -1,5 +1,4 @@
 use std::mem;
-use std::borrow::Borrow;
 
 /// # chapter 1
 /// In this chapter, we have implemented an integer stack without any lifetime specifier.
