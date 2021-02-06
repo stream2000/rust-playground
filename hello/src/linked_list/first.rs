@@ -24,6 +24,7 @@ struct Node {
     next: Link,
 }
 
+// simply do an iteration
 impl Drop for List {
     // this function will be called once the list is deconstructed.
     fn drop(&mut self) {
@@ -50,7 +51,7 @@ impl List {
         // insert before
         let new_node = Box::new(Node {
             elem,
-            // use re
+            // use replace to avoid dangling pointer
             next: mem::replace(&mut self.head, Link::Empty),
         });
 

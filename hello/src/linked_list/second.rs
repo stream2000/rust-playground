@@ -17,6 +17,9 @@ impl<T> List<T> {
         List { head: None }
     }
 
+    // replace with empty and take
+    // just don't let it dangling
+    // the 'take' method just have simplify it for us
     pub fn push(&mut self, elem: T) {
         let new_node = Box::new(Node {
             elem,
@@ -25,8 +28,6 @@ impl<T> List<T> {
 
         self.head = Some(new_node);
     }
-    // replace with empty and take
-    // just don't let it dangling
 
     pub fn pop(&mut self) -> Option<T> {
         self.head.take().map(|pre_head| {
@@ -209,7 +210,9 @@ mod test {
     #[test]
     fn iter_mut() {
         let mut list = List::new();
-        list.push(1); list.push(2); list.push(3);
+        list.push(1);
+        list.push(2);
+        list.push(3);
 
         let mut iter = list.iter_mut();
         assert_eq!(iter.next(), Some(&mut 3));
