@@ -8,14 +8,23 @@ fn simulated_expensive_calculation(intensity: u32) -> u32 {
 }
 
 pub struct Cacher<T, U>
-    where T: Fn(U) -> U {
+where
+    T: Fn(U) -> U,
+{
     calculate: T,
     value: Option<U>,
 }
 
-impl<T, U> Cacher<T, U> where T: Fn(U) -> U, U: Clone {
+impl<T, U> Cacher<T, U>
+where
+    T: Fn(U) -> U,
+    U: Clone,
+{
     pub fn new(calculate: T) -> Cacher<T, U> {
-        Cacher { calculate, value: None }
+        Cacher {
+            calculate,
+            value: None,
+        }
     }
 
     pub fn get_value(&mut self, arg: U) -> U {
@@ -25,7 +34,7 @@ impl<T, U> Cacher<T, U> where T: Fn(U) -> U, U: Clone {
                 self.value = Some(v.clone());
                 v
             }
-            Some(v) => v
+            Some(v) => v,
         }
     }
 }

@@ -1,14 +1,14 @@
-use crate::generic::{Summary, Point};
+use crate::closure::Cacher;
+use crate::generic::{Point, Summary};
 use std::thread;
 use std::time::Duration;
-use crate::closure::Cacher;
 
-mod generic;
 mod closure;
+mod generic;
 mod iter;
 
 fn main() {
-    let mut cache = Cacher::new({ |x: i32| -> i32  { x * 2 } });
+    let mut cache = Cacher::new({ |x: i32| -> i32 { x * 2 } });
     let result = cache.get_value(3);
     println!("result {}", result);
 }
@@ -27,11 +27,7 @@ fn generate_workout(intensity: u32, random_number: u32) {
         if random_number == 3 {
             println!("Take a break today! Remember to stay hydrated!");
         } else {
-            println!(
-                "Today, run for {} minutes!",
-                expensive_closure(intensity)
-            );
+            println!("Today, run for {} minutes!", expensive_closure(intensity));
         }
     }
 }
-

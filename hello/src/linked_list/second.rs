@@ -37,15 +37,11 @@ impl<T> List<T> {
     }
 
     pub fn peek(&self) -> Option<&T> {
-        self.head.as_ref().map(|node| {
-            &node.elem
-        })
+        self.head.as_ref().map(|node| &node.elem)
     }
 
     pub fn peek_mut(&mut self) -> Option<&mut T> {
-        self.head.as_mut().map(|node| {
-            &mut node.elem
-        })
+        self.head.as_mut().map(|node| &mut node.elem)
     }
 }
 
@@ -60,7 +56,6 @@ impl<T> Drop for List<T> {
 
 // generic tuple
 pub struct IntoIter<T>(List<T>);
-
 
 impl<T> List<T> {
     // a constructor of iter
@@ -78,7 +73,6 @@ impl<T> Iterator for IntoIter<T> {
     }
 }
 
-
 // iter -> next
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
@@ -87,7 +81,9 @@ pub struct Iter<'a, T> {
 impl<T> List<T> {
     pub fn iter(&self) -> Iter<T> {
         // map from box to the ref of box
-        Iter { next: self.head.as_ref().map(|node| &**node) }
+        Iter {
+            next: self.head.as_ref().map(|node| &**node),
+        }
     }
 }
 
@@ -105,12 +101,14 @@ impl<'a, T> Iterator for Iter<'a, T> {
 }
 
 pub struct IterMut<'a, T> {
-    next: Option<&'a mut Node<T>>
+    next: Option<&'a mut Node<T>>,
 }
 
 impl<T> List<T> {
     pub fn iter_mut(&mut self) -> IterMut<'_, T> {
-        IterMut { next: self.head.as_mut().map(|node| &mut **node) }
+        IterMut {
+            next: self.head.as_mut().map(|node| &mut **node),
+        }
     }
 }
 
@@ -170,9 +168,7 @@ mod test {
 
         assert_eq!(list.peek(), Some(&3));
         assert_eq!(list.peek_mut(), Some(&mut 3));
-        list.peek_mut().map(|value| {
-            *value = 42
-        });
+        list.peek_mut().map(|value| *value = 42);
 
         assert_eq!(list.peek(), Some(&42));
         assert_eq!(list.pop(), Some(42));

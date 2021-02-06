@@ -1,4 +1,7 @@
-fn largest<T>(list: &[T]) -> &T where T: PartialOrd {
+fn largest<T>(list: &[T]) -> &T
+where
+    T: PartialOrd,
+{
     let mut largest = &list[0];
 
     for item in list {
@@ -10,8 +13,7 @@ fn largest<T>(list: &[T]) -> &T where T: PartialOrd {
     largest
 }
 
-use std::fmt::{Display, Debug};
-
+use std::fmt::{Debug, Display};
 
 pub struct Point<T> {
     x: T,
@@ -45,13 +47,17 @@ pub fn notify(item: &impl Summary) {
 }
 
 fn some_function<T, U>(t: &T, u: &U) -> i32
-    where T: Display + Clone,
-          U: Clone + Debug
+where
+    T: Display + Clone,
+    U: Clone + Debug,
 {
     1
 }
 
-pub fn longer_string<'a, T>(a: &'a T, b: &'a T) -> &'a T where T: PartialOrd {
+pub fn longer_string<'a, T>(a: &'a T, b: &'a T) -> &'a T
+where
+    T: PartialOrd,
+{
     if a > b {
         a
     } else {
@@ -70,4 +76,3 @@ pub fn longer_string<'a, T>(a: &'a T, b: &'a T) -> &'a T where T: PartialOrd {
 //
 //     &s[..]
 // }
-

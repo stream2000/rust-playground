@@ -1,5 +1,5 @@
-use std::{env, process};
 use minigrep::Config;
+use std::{env, process};
 
 // let's start to learn rust
 fn main() {
@@ -21,4 +21,3 @@ fn main() {
         process::exit(1);
     }
 }
-

@@ -42,7 +42,6 @@ impl Drop for List {
     }
 }
 
-
 impl List {
     pub fn new() -> Self {
         List { head: Link::Empty }
@@ -90,4 +89,3 @@ mod test {
         assert_eq!(a, 2);
     }
 }
-

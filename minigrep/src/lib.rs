@@ -1,5 +1,5 @@
-use std::{fs, env};
 use std::error::Error;
+use std::{env, fs};
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
@@ -28,14 +28,14 @@ impl Config {
             None => {
                 return Err("Not enough arguments");
             }
-            Some(s) => { query = s }
+            Some(s) => query = s,
         }
 
         match args.next() {
             None => {
                 return Err("Not enough arguments");
             }
-            Some(s) => { filename = s }
+            Some(s) => filename = s,
         }
 
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
@@ -49,18 +49,15 @@ impl Config {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    contents.
-        lines().
-        filter(|l| l.contains(query)).
-        collect()
+    contents.lines().filter(|l| l.contains(query)).collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
-    contents.
-        lines().
-        filter(|l| l.to_lowercase().contains(&query)).
-        collect()
+    contents
+        .lines()
+        .filter(|l| l.to_lowercase().contains(&query))
+        .collect()
 }
 
 #[cfg(test)]
