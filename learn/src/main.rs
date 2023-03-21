@@ -8,13 +8,29 @@ mod generic;
 mod iter;
 
 fn main() {
-    let mut cache = Cacher::new({ |x: i32| -> i32 { x * 2 } });
+    let mut cache = Cacher::new({ |x| -> i32 { x * 2 } });
     let result = cache.get_value(3);
-    println!("result {}", result);
+    println!("\nthe result is: {}", result);
+
+    let mut cache2 = Cacher::new(|data| -> i64 {
+        let result = data % 3;
+        match result {
+            0 => data * 10,
+            1 => data / 2,
+            _ => data * 3 + 4
+        }
+    });
+
+    let mut number = 1;
+    while number < 100 {
+        println!("\nthe result of cache2 is: {}", cache2.get_value(number));
+        number += 1;
+        cache2.clear()
+    }
 }
 
 fn generate_workout(intensity: u32, random_number: u32) {
-    let expensive_closure = |num| {
+    let expensive_closure = |num| -> u32 {
         println!("calculating slowly...");
         thread::sleep(Duration::from_secs(2));
         num

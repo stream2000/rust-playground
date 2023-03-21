@@ -1,6 +1,3 @@
-use core::mem;
-use std::fs::read;
-
 struct List<T> {
     head: Link<T>,
 }
@@ -33,3 +30,5 @@ impl<T> List<T> {
         None
     }
 }
+
+

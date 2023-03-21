@@ -131,7 +131,6 @@ mod test {
     fn basics() {
         let mut list = List::new();
 
-        let a = [1, 1];
         // Check empty list behaves right
         assert_eq!(list.pop(), None);
 

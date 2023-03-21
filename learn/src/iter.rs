@@ -56,11 +56,11 @@ mod tests {
             vec![
                 Shoe {
                     size: 10,
-                    style: String::from("sneaker")
+                    style: String::from("sneaker"),
                 },
                 Shoe {
                     size: 10,
-                    style: String::from("boot")
+                    style: String::from("boot"),
                 },
             ]
         );

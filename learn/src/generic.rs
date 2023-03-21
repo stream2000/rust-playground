@@ -1,6 +1,6 @@
 fn largest<T>(list: &[T]) -> &T
-where
-    T: PartialOrd,
+    where
+        T: PartialOrd,
 {
     let mut largest = &list[0];
 
@@ -14,7 +14,9 @@ where
 }
 
 use std::fmt::{Debug, Display};
+use std::ops::Add;
 
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Point<T> {
     x: T,
     y: T,
@@ -30,6 +32,13 @@ impl<T> Point<T> {
     }
 }
 
+impl<T: Add + Copy + Add<Output=T>> Point<T> {
+    pub fn add(&mut self, other: &Point<T>) {
+        self.x = self.x + other.x;
+        self.y = self.y + other.y;
+    }
+}
+
 pub trait Summary {
     fn summary(&self) -> String;
 }
@@ -40,23 +49,23 @@ impl Summary for Point<i32> {
     }
 }
 
-const s: &'static str = "hello";
+const HELLO_STR: &'static str = "hello";
 
 pub fn notify(item: &impl Summary) {
     println!("Breaking news! {}", item.summary());
 }
 
 fn some_function<T, U>(t: &T, u: &U) -> i32
-where
-    T: Display + Clone,
-    U: Clone + Debug,
+    where
+        T: Display + Clone,
+        U: Clone + Debug,
 {
     1
 }
 
 pub fn longer_string<'a, T>(a: &'a T, b: &'a T) -> &'a T
-where
-    T: PartialOrd,
+    where
+        T: PartialOrd,
 {
     if a > b {
         a
@@ -65,14 +74,15 @@ where
     }
 }
 
-// fn first_word(s: &str) -> &str {
-//     let bytes = s.as_bytes();
-//
-//     for (i, &item) in bytes.iter().enumerate() {
-//         if item == b' ' {
-//             return &s[0..i];
-//         }
-//     }
-//
-//     &s[..]
-// }
+
+#[cfg(test)]
+mod test {
+    use crate::generic::{notify, Point};
+
+    #[test]
+    fn basics() {
+        let mut p = Point::new(1, 2);
+        p.add(&Point::new(3, 4));
+        notify(&p);
+    }
+}
