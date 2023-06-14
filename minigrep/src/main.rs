@@ -1,9 +1,9 @@
 use minigrep::Config;
 use std::{env, process};
 
-// let's start to learn rust
 fn main() {
     let mut args: Vec<String> = env::args().collect();
+
     // for debug
     if args.len() == 1 {
         args.push(String::from("query"));

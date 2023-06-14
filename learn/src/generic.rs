@@ -1,20 +1,22 @@
+use std::fmt::{Debug, Display};
+use std::ops::Add;
+
 fn largest<T>(list: &[T]) -> &T
     where
         T: PartialOrd,
 {
     let mut largest = &list[0];
-
     for item in list {
         if item > largest {
             largest = item;
         }
     }
-
     largest
 }
 
-use std::fmt::{Debug, Display};
-use std::ops::Add;
+// Don't you think it's cool?
+struct Tuple3(i32, i32, i32);
+
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Point<T> {
