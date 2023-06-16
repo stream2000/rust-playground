@@ -6,6 +6,7 @@ use std::time::Duration;
 mod closure;
 mod generic;
 mod iter;
+mod concurrent;
 
 fn main() {
     let mut cache = Cacher::new({ |x| -> i32 { x * 2 } });
