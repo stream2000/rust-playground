@@ -17,7 +17,6 @@ fn largest<T>(list: &[T]) -> &T
 // Don't you think it's cool?
 struct Tuple3(i32, i32, i32);
 
-
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Point<T> {
     x: T,
