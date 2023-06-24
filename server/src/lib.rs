@@ -8,47 +8,18 @@ pub struct ThreadPool {
     sender: Option<mpsc::Sender<Job>>,
 }
 
-struct Worker {
-    id: u32,
-    thread: Option<JoinHandle<()>>,
-}
-
-impl Worker {
-    pub fn new(id: u32, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread: JoinHandle<()> = thread::spawn(move || loop {
-            // I was doubt about the lock here
-            let message = receiver.lock().unwrap().recv();
-
-            match message {
-                Ok(job) => {
-                    println!("Worker {id} got a job to execute!");
-                    job()
-                }
-                Err(_) => {
-                    println!("Worker {id} disconnected; shutting down.");
-                }
-            }
-        });
-
-        Worker {
-            id,
-            thread: Some(thread),
-        }
-    }
-}
-
-type Job = Box<dyn FnOnce() + Send + 'static>;
-
 impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
+
         let (sender, receiver) = mpsc::channel();
+
         let receiver = Arc::new(Mutex::new(receiver));
 
         let mut workers = Vec::with_capacity(size);
 
         for i in 0..size {
-            workers.push(Worker::new(i as u32, receiver.clone()));
+            workers.push(Worker::new(i as u32, Arc::clone(&receiver)));
         }
         ThreadPool { workers, sender: Some(sender) }
     }
@@ -57,7 +28,7 @@ impl ThreadPool {
         where F: FnOnce() + Send + 'static
     {
         let job = Box::new(f);
-        self.sender.send(job).unwrap();
+        self.sender.as_ref().unwrap().send(job).unwrap();
     }
 }
 
@@ -70,6 +41,37 @@ impl Drop for ThreadPool {
             if let Some(thread) = worker.thread.take() {
                 thread.join().unwrap();
             }
+        }
+    }
+}
+
+type Job = Box<dyn FnOnce() + Send + 'static>;
+
+struct Worker {
+    id: u32,
+    thread: Option<JoinHandle<()>>,
+}
+
+impl Worker {
+    pub fn new(id: u32, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+        let thread = thread::spawn(move || loop {
+            let message = receiver.lock().unwrap().recv();
+
+            match message {
+                Ok(job) => {
+                    println!("Worker {id} got a job to execute!");
+                    job()
+                }
+                Err(_) => {
+                    println!("Worker {id} disconnected; shutting down.");
+                    break;
+                }
+            }
+        });
+
+        Worker {
+            id,
+            thread: Some(thread),
         }
     }
 }
