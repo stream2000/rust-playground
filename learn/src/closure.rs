@@ -8,17 +8,17 @@ fn simulated_expensive_calculation(intensity: u32) -> u32 {
 }
 
 pub struct Cacher<T, U>
-    where
-        T: Fn(U) -> U,
+where
+    T: Fn(U) -> U,
 {
     calculate: T,
     value: Option<U>,
 }
 
 impl<T, U> Cacher<T, U>
-    where
-        T: Fn(U) -> U,
-        U: Clone,
+where
+    T: Fn(U) -> U,
+    U: Clone,
 {
     pub fn new(calculate: T) -> Cacher<T, U> {
         Cacher {

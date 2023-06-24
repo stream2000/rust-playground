@@ -1,19 +1,17 @@
 #[cfg(test)]
 mod test {
+    use crate::concurrent;
     use std::fs::metadata;
-    use std::sync::{Arc, mpsc, Mutex};
+    use std::sync::mpsc;
+    use std::sync::{mpsc, Arc, Mutex};
     use std::thread;
     use std::thread::JoinHandle;
-    use crate::concurrent;
-    use std::sync::mpsc;
 
     #[test]
     fn cps() {
         let (tx, rx) = mpsc::channel();
         let mut handles = vec![];
-        let handle1 = thread::spawn(move || {
-            tx.send(String::from("hello")).unwrap()
-        });
+        let handle1 = thread::spawn(move || tx.send(String::from("hello")).unwrap());
         handles.push(handle1);
 
         let handle2 = thread::spawn(move || {

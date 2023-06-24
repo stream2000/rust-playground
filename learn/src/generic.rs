@@ -2,8 +2,8 @@ use std::fmt::{Debug, Display};
 use std::ops::Add;
 
 fn largest<T>(list: &[T]) -> &T
-    where
-        T: PartialOrd,
+where
+    T: PartialOrd,
 {
     let mut largest = &list[0];
     for item in list {
@@ -33,7 +33,7 @@ impl<T> Point<T> {
     }
 }
 
-impl<T: Add + Copy + Add<Output=T>> Point<T> {
+impl<T: Add + Copy + Add<Output = T>> Point<T> {
     pub fn add(&mut self, other: &Point<T>) {
         self.x = self.x + other.x;
         self.y = self.y + other.y;
@@ -57,16 +57,16 @@ pub fn notify(item: &impl Summary) {
 }
 
 fn some_function<T, U>(t: &T, u: &U) -> i32
-    where
-        T: Display + Clone,
-        U: Clone + Debug,
+where
+    T: Display + Clone,
+    U: Clone + Debug,
 {
     1
 }
 
 pub fn longer_string<'a, T>(a: &'a T, b: &'a T) -> &'a T
-    where
-        T: PartialOrd,
+where
+    T: PartialOrd,
 {
     if a > b {
         a
@@ -74,7 +74,6 @@ pub fn longer_string<'a, T>(a: &'a T, b: &'a T) -> &'a T
         b
     }
 }
-
 
 #[cfg(test)]
 mod test {

@@ -30,5 +30,3 @@ impl<T> List<T> {
         None
     }
 }
-
-

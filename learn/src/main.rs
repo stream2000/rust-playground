@@ -4,9 +4,9 @@ use std::thread;
 use std::time::Duration;
 
 mod closure;
+mod concurrent;
 mod generic;
 mod iter;
-mod concurrent;
 
 fn main() {
     let mut cache = Cacher::new({ |x| -> i32 { x * 2 } });
@@ -18,7 +18,7 @@ fn main() {
         match result {
             0 => data * 10,
             1 => data / 2,
-            _ => data * 3 + 4
+            _ => data * 3 + 4,
         }
     });
 
